@@ -205,8 +205,8 @@ function CategoriesTab() {
                             <div
                                 key={cat.id}
                                 className={`flex items-center justify-between p-5 rounded-xl border transition-all duration-200 ${editingCategory?.id === cat.id
-                                        ? "bg-indigo-500/10 border-indigo-500/30"
-                                        : "bg-white/5 border-white/10 hover:bg-white/10"
+                                    ? "bg-indigo-500/10 border-indigo-500/30"
+                                    : "bg-white/5 border-white/10 hover:bg-white/10"
                                     }`}
                             >
                                 <div className="flex items-center gap-4">
@@ -400,8 +400,8 @@ function UsersTab() {
                             <thead>
                                 <tr className="border-b border-white/10 bg-white/[0.02]">
                                     <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Usuario</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Email</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Rol</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden md:table-cell">Email</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden sm:table-cell">Rol</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Estado</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider text-right">Acciones</th>
                                 </tr>
@@ -418,21 +418,21 @@ function UsersTab() {
                                                 <span className="text-sm font-medium text-white">{user.name}</span>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-zinc-400">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-zinc-400 hidden md:table-cell">
                                             {user.email}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
+                                        <td className="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
                                             <Badge className={`text-xs px-2.5 py-0.5 font-medium ${user.role === "ADMIN"
-                                                    ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/20 hover:bg-indigo-500/20"
-                                                    : "bg-zinc-800 text-zinc-300 border-zinc-700 hover:bg-zinc-700"
+                                                ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/20 hover:bg-indigo-500/20"
+                                                : "bg-zinc-800 text-zinc-300 border-zinc-700 hover:bg-zinc-700"
                                                 }`}>
                                                 {user.role}
                                             </Badge>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <Badge className={`text-xs px-2.5 py-0.5 font-medium ${user.active
-                                                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                                                    : "bg-red-500/10 text-red-400 border-red-500/20"
+                                                ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                                                : "bg-red-500/10 text-red-400 border-red-500/20"
                                                 }`}>
                                                 {user.active ? "Activo" : "Inactivo"}
                                             </Badge>
@@ -442,8 +442,8 @@ function UsersTab() {
                                                 <button
                                                     onClick={() => toggleStatus(user)}
                                                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${user.active
-                                                            ? "bg-white/5 text-zinc-400 hover:bg-red-500/10 hover:text-red-400"
-                                                            : "bg-white/5 text-zinc-400 hover:bg-emerald-500/10 hover:text-emerald-400"
+                                                        ? "bg-white/5 text-zinc-400 hover:bg-red-500/10 hover:text-red-400"
+                                                        : "bg-white/5 text-zinc-400 hover:bg-emerald-500/10 hover:text-emerald-400"
                                                         }`}
                                                 >
                                                     {user.active ? "Desactivar" : "Activar"}

@@ -1,7 +1,13 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import "./globals.css"
 import AuthProvider from "@/components/providers/AuthProvider"
 import { Toaster } from "sonner"
+themeColor: "#0D0D14",
+  width: "device-width",
+    initialScale: 1,
+      maximumScale: 1,
+        userScalable: false,
+}
 
 export const metadata: Metadata = {
   title: {
@@ -11,6 +17,7 @@ export const metadata: Metadata = {
   description:
     "Sistema de gestión profesional para ópticas. Administrá inventario, clientes y pedidos.",
   keywords: ["óptica", "gestión", "inventario", "anteojos"],
+  manifest: "/manifest.json",
 }
 
 export default function RootLayout({
