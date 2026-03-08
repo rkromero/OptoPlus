@@ -26,7 +26,7 @@ const schema = z.object({
     brand: z.string().optional(),
     description: z.string().optional(),
     priceList: z.coerce.number().min(0, "Precio requerido"),
-    priceCost: z.coerce.number().optional(),
+    priceCost: z.coerce.number().nullable().optional().or(z.literal('')),
     stock: z.coerce.number().int().min(0, "Stock requerido"),
     categoryId: z.string().min(1, "Categoría requerida"),
     active: z.boolean().default(true),
@@ -115,10 +115,17 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
             const url = product ? `/api/products/${product.id}` : "/api/products"
             const method = product ? "PUT" : "POST"
 
+
+            const payload = {
+                ...data,
+                priceCost: data.priceCost === "" ? null : data.priceCost,
+                imageUrl: imageUrl || null
+            }
+
             const res = await fetch(url, {
                 method,
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ...data, imageUrl: imageUrl || null }),
+                body: JSON.stringify(payload),
             })
 
             if (!res.ok) throw new Error()
@@ -132,10 +139,21 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
     }
 
     const activeValue = watch("active")
+    const brandValue = watch("brand")
+    const modelValue = watch("model")
+
+    useEffect(() => {
+        const generatedName = `${brandValue || ""} ${modelValue || ""}`.trim()
+        if (generatedName) {
+            setValue("name", generatedName, { shouldValidate: true })
+        } else {
+            setValue("name", "", { shouldValidate: true })
+        }
+    }, [brandValue, modelValue, setValue])
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div className="pb-20"> {/* Wrapper to give space for sticky footer */}
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1">
+            <div className="flex-1 space-y-6 pb-8"> {/* Flex-1 pushes footer down */}
                 {/* Image upload */}
                 <div>
                     <Label className="text-slate-300 mb-2 block">Foto del producto</Label>
@@ -185,8 +203,9 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
                         <Input
                             id="name"
                             {...register("name")}
-                            className="mt-1.5 bg-white/[0.03] border-white/[0.08] focus:border-indigo-500/50 text-white"
-                            placeholder="Ej: Ray-Ban Wayfarer"
+                            className="mt-1.5 bg-white/[0.03] border-white/[0.08] text-slate-400 cursor-not-allowed"
+                            placeholder="Autogenerado (Marca + Modelo)"
+                            readOnly
                         />
                         {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name.message}</p>}
                     </div>
@@ -321,7 +340,7 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
 
             </div>
             {/* Actions - Sticky Footer */}
-            <div className="sticky bottom-0 bg-[#0D0D14] py-4 px-6 border-t border-white/[0.06] flex justify-end gap-3 z-10 -mx-6 -mb-6">
+            <div className="sticky bottom-0 mt-auto bg-[#0D0D14] py-4 px-6 border-t border-white/[0.06] flex justify-end gap-3 z-10 -mx-6 -mb-6">
                 <Button
                     type="button"
                     variant="ghost"
