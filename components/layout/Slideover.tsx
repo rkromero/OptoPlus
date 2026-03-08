@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+import { createPortal } from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { X } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -32,6 +33,11 @@ export default function Slideover({
     width = "lg",
 }: SlideoverProps) {
     const overlayRef = useRef<HTMLDivElement>(null)
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
 
     // Close on Escape key
     useEffect(() => {
@@ -54,7 +60,9 @@ export default function Slideover({
         }
     }, [isOpen])
 
-    return (
+    if (!mounted) return null
+
+    return createPortal(
         <AnimatePresence>
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex justify-end">
@@ -99,10 +107,11 @@ export default function Slideover({
                         </div>
 
                         {/* Scrollable content */}
-                        <div className="flex-1 overflow-y-auto p-6">{children}</div>
+                        <div className="flex-1 overflow-y-auto p-6 flex flex-col">{children}</div>
                     </motion.div>
                 </div>
             )}
-        </AnimatePresence>
+        </AnimatePresence>,
+        document.body
     )
 }
