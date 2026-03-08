@@ -11,14 +11,16 @@ interface SlideoverProps {
     title: string
     description?: string
     children: React.ReactNode
-    width?: "sm" | "md" | "lg" | "xl"
+    width?: "sm" | "md" | "lg" | "xl" | "2xl" | "full"
 }
 
 const widthMap = {
     sm: "max-w-sm",
     md: "max-w-md",
     lg: "max-w-lg",
-    xl: "max-w-xl",
+    xl: "max-w-2xl",
+    "2xl": "max-w-4xl",
+    full: "max-w-full",
 }
 
 export default function Slideover({

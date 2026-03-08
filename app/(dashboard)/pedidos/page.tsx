@@ -133,8 +133,8 @@ export default function PedidosPage() {
                 <button
                     onClick={() => { setStatusFilter(""); setPage(1) }}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${!statusFilter
-                            ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
-                            : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.05]"
+                        ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.05]"
                         }`}
                 >
                     Todos
@@ -146,8 +146,8 @@ export default function PedidosPage() {
                             key={status}
                             onClick={() => { setStatusFilter(status); setPage(1) }}
                             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${statusFilter === status
-                                    ? `${cfg.className} border`
-                                    : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.05]"
+                                ? `${cfg.className} border`
+                                : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.05]"
                                 }`}
                         >
                             {cfg.label}
@@ -290,7 +290,7 @@ export default function PedidosPage() {
                 onClose={() => setIsFormOpen(false)}
                 title="Nuevo Pedido"
                 description="Seleccioná el cliente, agregá productos y confirmá"
-                width="xl"
+                width="2xl"
             >
                 <OrderForm
                     onSuccess={() => { setIsFormOpen(false); fetchOrders() }}

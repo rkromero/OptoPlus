@@ -223,7 +223,7 @@ export default function ClientesPage() {
                 isOpen={isFormOpen}
                 onClose={() => { setIsFormOpen(false); setEditingClient(null) }}
                 title={editingClient ? "Editar Cliente" : "Nuevo Cliente"}
-                width="xl"
+                width="2xl"
             >
                 <ClientForm
                     client={editingClient}
@@ -237,7 +237,7 @@ export default function ClientesPage() {
                 isOpen={isDetailOpen}
                 onClose={() => { setIsDetailOpen(false); setSelectedClientId(null) }}
                 title="Detalle del Cliente"
-                width="xl"
+                width="2xl"
             >
                 {selectedClientId && (
                     <ClientDetail clientId={selectedClientId} />

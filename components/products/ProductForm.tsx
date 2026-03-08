@@ -59,7 +59,7 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
         watch,
         formState: { errors },
     } = useForm<FormData>({
-        resolver: zodResolver(schema),
+        resolver: zodResolver(schema) as any,
         defaultValues: {
             name: product?.name || "",
             model: product?.model || "",
@@ -134,7 +134,7 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
     const activeValue = watch("active")
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pb-24">
             {/* Image upload */}
             <div>
                 <Label className="text-slate-300 mb-2 block">Foto del producto</Label>
@@ -318,8 +318,8 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
                 </div>
             </div>
 
-            {/* Actions */}
-            <div className="flex justify-end gap-3 pt-2">
+            {/* Actions - Sticky Footer */}
+            <div className="fixed bottom-0 right-0 left-0 bg-[#0D0D14] p-6 border-t border-white/[0.06] flex justify-end gap-3 z-10">
                 <Button
                     type="button"
                     variant="ghost"
@@ -331,7 +331,7 @@ export default function ProductForm({ product, onSuccess, onCancel }: ProductFor
                 <Button
                     type="submit"
                     disabled={loading || uploading}
-                    className="bg-indigo-600 hover:bg-indigo-500 text-white"
+                    className="bg-indigo-600 hover:bg-indigo-500 text-white min-w-[120px]"
                 >
                     {loading ? (
                         <>

@@ -137,8 +137,8 @@ export default function InventarioPage() {
                     <button
                         onClick={() => { setCategoryFilter(""); setPage(1) }}
                         className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${!categoryFilter
-                                ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
-                                : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.05]"
+                            ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
+                            : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.05]"
                             }`}
                     >
                         Todos
@@ -148,8 +148,8 @@ export default function InventarioPage() {
                             key={cat.id}
                             onClick={() => { setCategoryFilter(cat.id); setPage(1) }}
                             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${categoryFilter === cat.id
-                                    ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
-                                    : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.05]"
+                                ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
+                                : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.05]"
                                 }`}
                         >
                             {cat.name}
@@ -311,7 +311,7 @@ export default function InventarioPage() {
                 onClose={() => { setIsSlideoverOpen(false); setEditingProduct(null) }}
                 title={editingProduct ? "Editar Producto" : "Nuevo Producto"}
                 description="Completá los datos del producto"
-                width="xl"
+                width="2xl"
             >
                 <ProductForm
                     product={editingProduct}

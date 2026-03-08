@@ -71,7 +71,7 @@ export default function ClientForm({ client, onSuccess, onCancel }: ClientFormPr
         handleSubmit,
         formState: { errors },
     } = useForm<FormData>({
-        resolver: zodResolver(schema),
+        resolver: zodResolver(schema) as any,
         defaultValues: {
             fullName: client?.fullName || "",
             dni: client?.dni || "",
@@ -115,7 +115,7 @@ export default function ClientForm({ client, onSuccess, onCancel }: ClientFormPr
     const inputClass = "bg-white/[0.03] border-white/[0.08] focus:border-indigo-500/50 text-white"
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pb-24">
             {/* Personal info */}
             <FormField label="Nombre completo *" id="fullName" error={errors.fullName?.message}>
                 <Input id="fullName" {...register("fullName")} className={inputClass} placeholder="Juan García" />
@@ -251,8 +251,8 @@ export default function ClientForm({ client, onSuccess, onCancel }: ClientFormPr
                 )}
             </div>
 
-            {/* Actions */}
-            <div className="flex justify-end gap-3 pt-2">
+            {/* Actions - Sticky Footer */}
+            <div className="fixed bottom-0 right-0 left-0 bg-[#0D0D14] p-6 border-t border-white/[0.06] flex justify-end gap-3 z-10">
                 <Button
                     type="button"
                     variant="ghost"
@@ -264,7 +264,7 @@ export default function ClientForm({ client, onSuccess, onCancel }: ClientFormPr
                 <Button
                     type="submit"
                     disabled={loading}
-                    className="bg-indigo-600 hover:bg-indigo-500 text-white"
+                    className="bg-indigo-600 hover:bg-indigo-500 text-white min-w-[120px]"
                 >
                     {loading ? (
                         <>

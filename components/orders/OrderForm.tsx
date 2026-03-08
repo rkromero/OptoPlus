@@ -149,7 +149,7 @@ export default function OrderForm({ onSuccess, onCancel }: OrderFormProps) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 pb-24">
             {/* Step 1: Client */}
             <div>
                 <Label className="text-slate-300 text-sm font-medium mb-2 block">
@@ -337,8 +337,8 @@ export default function OrderForm({ onSuccess, onCancel }: OrderFormProps) {
                 </div>
             )}
 
-            {/* Actions */}
-            <div className="flex justify-end gap-3 pt-2">
+            {/* Actions - Sticky Footer */}
+            <div className="fixed bottom-0 right-0 left-0 bg-[#0D0D14] p-6 border-t border-white/[0.06] flex justify-end gap-3 z-10">
                 <Button
                     type="button"
                     variant="ghost"
@@ -350,7 +350,7 @@ export default function OrderForm({ onSuccess, onCancel }: OrderFormProps) {
                 <Button
                     type="submit"
                     disabled={loading || !selectedClient || items.length === 0}
-                    className="bg-indigo-600 hover:bg-indigo-500 text-white"
+                    className="bg-indigo-600 hover:bg-indigo-500 text-white min-w-[140px]"
                 >
                     {loading ? (
                         <>
