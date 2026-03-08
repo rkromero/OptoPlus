@@ -115,144 +115,146 @@ export default function ClientForm({ client, onSuccess, onCancel }: ClientFormPr
     const inputClass = "bg-white/[0.03] border-white/[0.08] focus:border-indigo-500/50 text-white"
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pb-24">
-            {/* Personal info */}
-            <FormField label="Nombre completo *" id="fullName" error={errors.fullName?.message}>
-                <Input id="fullName" {...register("fullName")} className={inputClass} placeholder="Juan García" />
-            </FormField>
-
-            <div className="grid grid-cols-2 gap-4">
-                <FormField label="DNI / CUIT" id="dni">
-                    <Input id="dni" {...register("dni")} className={inputClass} placeholder="20123456" />
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div className="pb-20"> {/* Wrapper for sticky footer space */}
+                {/* Personal info */}
+                <FormField label="Nombre completo *" id="fullName" error={errors.fullName?.message}>
+                    <Input id="fullName" {...register("fullName")} className={inputClass} placeholder="Juan García" />
                 </FormField>
-                <FormField label="Teléfono" id="phone">
-                    <Input id="phone" {...register("phone")} className={inputClass} placeholder="+54 11 1234-5678" />
+
+                <div className="grid grid-cols-2 gap-4">
+                    <FormField label="DNI / CUIT" id="dni">
+                        <Input id="dni" {...register("dni")} className={inputClass} placeholder="20123456" />
+                    </FormField>
+                    <FormField label="Teléfono" id="phone">
+                        <Input id="phone" {...register("phone")} className={inputClass} placeholder="+54 11 1234-5678" />
+                    </FormField>
+                </div>
+
+                <FormField label="Email" id="email" error={errors.email?.message}>
+                    <Input id="email" type="email" {...register("email")} className={inputClass} placeholder="juan@example.com" />
                 </FormField>
-            </div>
 
-            <FormField label="Email" id="email" error={errors.email?.message}>
-                <Input id="email" type="email" {...register("email")} className={inputClass} placeholder="juan@example.com" />
-            </FormField>
-
-            <FormField label="Dirección" id="address">
-                <Input id="address" {...register("address")} className={inputClass} placeholder="Av. Rivadavia 1234" />
-            </FormField>
-
-            <div className="grid grid-cols-2 gap-4">
-                <FormField label="Ciudad" id="city">
-                    <Input id="city" {...register("city")} className={inputClass} placeholder="Buenos Aires" />
+                <FormField label="Dirección" id="address">
+                    <Input id="address" {...register("address")} className={inputClass} placeholder="Av. Rivadavia 1234" />
                 </FormField>
-                <FormField label="Provincia" id="province">
-                    <Input id="province" {...register("province")} className={inputClass} placeholder="Buenos Aires" />
+
+                <div className="grid grid-cols-2 gap-4">
+                    <FormField label="Ciudad" id="city">
+                        <Input id="city" {...register("city")} className={inputClass} placeholder="Buenos Aires" />
+                    </FormField>
+                    <FormField label="Provincia" id="province">
+                        <Input id="province" {...register("province")} className={inputClass} placeholder="Buenos Aires" />
+                    </FormField>
+                </div>
+
+                <FormField label="Notas / Observaciones" id="notes">
+                    <Textarea
+                        id="notes"
+                        {...register("notes")}
+                        rows={2}
+                        className={`${inputClass} resize-none`}
+                        placeholder="Información adicional..."
+                    />
                 </FormField>
-            </div>
 
-            <FormField label="Notas / Observaciones" id="notes">
-                <Textarea
-                    id="notes"
-                    {...register("notes")}
-                    rows={2}
-                    className={`${inputClass} resize-none`}
-                    placeholder="Información adicional..."
-                />
-            </FormField>
+                {/* Prescription section */}
+                <div className="border border-white/[0.06] rounded-xl overflow-hidden">
+                    <button
+                        type="button"
+                        onClick={() => setShowPrescription(!showPrescription)}
+                        className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/[0.03] transition-colors cursor-pointer"
+                    >
+                        <span>Graduación (opcional)</span>
+                        {showPrescription ? (
+                            <ChevronUp className="w-4 h-4 text-slate-500" />
+                        ) : (
+                            <ChevronDown className="w-4 h-4 text-slate-500" />
+                        )}
+                    </button>
 
-            {/* Prescription section */}
-            <div className="border border-white/[0.06] rounded-xl overflow-hidden">
-                <button
-                    type="button"
-                    onClick={() => setShowPrescription(!showPrescription)}
-                    className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/[0.03] transition-colors cursor-pointer"
-                >
-                    <span>Graduación (opcional)</span>
-                    {showPrescription ? (
-                        <ChevronUp className="w-4 h-4 text-slate-500" />
-                    ) : (
-                        <ChevronDown className="w-4 h-4 text-slate-500" />
+                    {showPrescription && (
+                        <div className="px-4 pb-4 space-y-4 border-t border-white/[0.06]">
+                            <div className="pt-4">
+                                <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-3">
+                                    OD — Ojo Derecho
+                                </p>
+                                <div className="grid grid-cols-3 gap-3">
+                                    <div>
+                                        <Label className="text-xs text-slate-400">Esfera</Label>
+                                        <Input
+                                            type="number"
+                                            step="0.25"
+                                            {...register("odSphere")}
+                                            className={`mt-1 text-sm ${inputClass}`}
+                                            placeholder="0.00"
+                                        />
+                                    </div>
+                                    <div>
+                                        <Label className="text-xs text-slate-400">Cilindro</Label>
+                                        <Input
+                                            type="number"
+                                            step="0.25"
+                                            {...register("odCylinder")}
+                                            className={`mt-1 text-sm ${inputClass}`}
+                                            placeholder="0.00"
+                                        />
+                                    </div>
+                                    <div>
+                                        <Label className="text-xs text-slate-400">Eje</Label>
+                                        <Input
+                                            type="number"
+                                            {...register("odAxis")}
+                                            className={`mt-1 text-sm ${inputClass}`}
+                                            placeholder="0"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-3">
+                                    OI — Ojo Izquierdo
+                                </p>
+                                <div className="grid grid-cols-3 gap-3">
+                                    <div>
+                                        <Label className="text-xs text-slate-400">Esfera</Label>
+                                        <Input
+                                            type="number"
+                                            step="0.25"
+                                            {...register("oiSphere")}
+                                            className={`mt-1 text-sm ${inputClass}`}
+                                            placeholder="0.00"
+                                        />
+                                    </div>
+                                    <div>
+                                        <Label className="text-xs text-slate-400">Cilindro</Label>
+                                        <Input
+                                            type="number"
+                                            step="0.25"
+                                            {...register("oiCylinder")}
+                                            className={`mt-1 text-sm ${inputClass}`}
+                                            placeholder="0.00"
+                                        />
+                                    </div>
+                                    <div>
+                                        <Label className="text-xs text-slate-400">Eje</Label>
+                                        <Input
+                                            type="number"
+                                            {...register("oiAxis")}
+                                            className={`mt-1 text-sm ${inputClass}`}
+                                            placeholder="0"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     )}
-                </button>
+                </div>
 
-                {showPrescription && (
-                    <div className="px-4 pb-4 space-y-4 border-t border-white/[0.06]">
-                        <div className="pt-4">
-                            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-3">
-                                OD — Ojo Derecho
-                            </p>
-                            <div className="grid grid-cols-3 gap-3">
-                                <div>
-                                    <Label className="text-xs text-slate-400">Esfera</Label>
-                                    <Input
-                                        type="number"
-                                        step="0.25"
-                                        {...register("odSphere")}
-                                        className={`mt-1 text-sm ${inputClass}`}
-                                        placeholder="0.00"
-                                    />
-                                </div>
-                                <div>
-                                    <Label className="text-xs text-slate-400">Cilindro</Label>
-                                    <Input
-                                        type="number"
-                                        step="0.25"
-                                        {...register("odCylinder")}
-                                        className={`mt-1 text-sm ${inputClass}`}
-                                        placeholder="0.00"
-                                    />
-                                </div>
-                                <div>
-                                    <Label className="text-xs text-slate-400">Eje</Label>
-                                    <Input
-                                        type="number"
-                                        {...register("odAxis")}
-                                        className={`mt-1 text-sm ${inputClass}`}
-                                        placeholder="0"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-3">
-                                OI — Ojo Izquierdo
-                            </p>
-                            <div className="grid grid-cols-3 gap-3">
-                                <div>
-                                    <Label className="text-xs text-slate-400">Esfera</Label>
-                                    <Input
-                                        type="number"
-                                        step="0.25"
-                                        {...register("oiSphere")}
-                                        className={`mt-1 text-sm ${inputClass}`}
-                                        placeholder="0.00"
-                                    />
-                                </div>
-                                <div>
-                                    <Label className="text-xs text-slate-400">Cilindro</Label>
-                                    <Input
-                                        type="number"
-                                        step="0.25"
-                                        {...register("oiCylinder")}
-                                        className={`mt-1 text-sm ${inputClass}`}
-                                        placeholder="0.00"
-                                    />
-                                </div>
-                                <div>
-                                    <Label className="text-xs text-slate-400">Eje</Label>
-                                    <Input
-                                        type="number"
-                                        {...register("oiAxis")}
-                                        className={`mt-1 text-sm ${inputClass}`}
-                                        placeholder="0"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
             </div>
-
             {/* Actions - Sticky Footer */}
-            <div className="fixed bottom-0 right-0 left-0 bg-[#0D0D14] p-6 border-t border-white/[0.06] flex justify-end gap-3 z-10">
+            <div className="sticky bottom-0 bg-[#0D0D14] py-4 px-6 border-t border-white/[0.06] flex justify-end gap-3 z-10 -mx-6 -mb-6">
                 <Button
                     type="button"
                     variant="ghost"
