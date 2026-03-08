@@ -149,8 +149,8 @@ export default function OrderForm({ onSuccess, onCancel }: OrderFormProps) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="pb-20"> {/* Wrapper to give space for sticky footer */}
+        <form onSubmit={handleSubmit} className="flex flex-col flex-1">
+            <div className="flex-1 space-y-6 pb-8"> {/* Wrapper to give space for sticky footer */}
                 {/* Step 1: Client */}
                 <div>
                     <Label className="text-slate-300 text-sm font-medium mb-2 block">
@@ -340,7 +340,7 @@ export default function OrderForm({ onSuccess, onCancel }: OrderFormProps) {
 
             </div>
             {/* Actions - Sticky Footer */}
-            <div className="sticky bottom-0 bg-[#0D0D14] py-4 px-6 border-t border-white/[0.06] flex justify-end gap-3 z-10 -mx-6 -mb-6">
+            <div className="sticky bottom-0 mt-auto bg-[#0D0D14] py-4 px-6 border-t border-white/[0.06] flex justify-end gap-3 z-10 -mx-6 -mb-6">
                 <Button
                     type="button"
                     variant="ghost"
