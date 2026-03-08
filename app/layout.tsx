@@ -2,11 +2,13 @@ import type { Metadata, Viewport } from "next"
 import "./globals.css"
 import AuthProvider from "@/components/providers/AuthProvider"
 import { Toaster } from "sonner"
-themeColor: "#0D0D14",
+
+export const viewport: Viewport = {
+  themeColor: "#0D0D14",
   width: "device-width",
-    initialScale: 1,
-      maximumScale: 1,
-        userScalable: false,
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 }
 
 export const metadata: Metadata = {
