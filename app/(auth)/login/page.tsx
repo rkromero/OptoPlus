@@ -14,7 +14,7 @@ import { toast } from "sonner"
 import { motion } from "framer-motion"
 
 const schema = z.object({
-    email: z.string().email("Email inválido"),
+    email: z.string().min(1, "El email es requerido").email("Email inválido"),
     password: z.string().min(1, "La contraseña es requerida"),
 })
 
@@ -32,6 +32,11 @@ export default function LoginPage() {
     } = useForm<FormData>({
         resolver: zodResolver(schema),
         mode: "onSubmit",
+        reValidateMode: "onSubmit",
+        defaultValues: {
+            email: "",
+            password: "",
+        },
     })
 
     const onSubmit = async (data: FormData) => {
