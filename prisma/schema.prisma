@@ -60,6 +60,9 @@ model Product {
   orderItems  OrderItem[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+
+  @@index([categoryId])
+  @@index([name, model])
 }
 
 model Client {
@@ -83,6 +86,9 @@ model Client {
   orders     Order[]
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  @@index([fullName])
+  @@index([dni])
 }
 
 model Order {
@@ -97,6 +103,9 @@ model Order {
   items       OrderItem[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+
+  @@index([clientId])
+  @@index([status])
 }
 
 model OrderItem {
@@ -107,6 +116,9 @@ model OrderItem {
   product   Product @relation(fields: [productId], references: [id])
   quantity  Int
   unitPrice Float
+
+  @@index([orderId])
+  @@index([productId])
 }
 
 model CompanySettings {
