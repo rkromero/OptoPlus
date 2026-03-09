@@ -4,7 +4,6 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { signOut, useSession } from "next-auth/react"
-import { motion, AnimatePresence } from "framer-motion"
 import {
     LayoutDashboard,
     Package,
@@ -47,20 +46,14 @@ export default function Sidebar() {
     const allItems = isAdmin ? [...navItems, ...adminItems] : navItems
 
     const getInitials = (name: string) =>
-        name
-            .split(" ")
-            .map((n) => n[0])
-            .join("")
-            .toUpperCase()
-            .slice(0, 2)
+        name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
 
     return (
         <>
             {/* Desktop Sidebar */}
-            <motion.aside
-                animate={{ width: collapsed ? 64 : 240 }}
-                transition={{ duration: 0.25, ease: "easeInOut" }}
-                className="hidden md:flex relative flex-col h-screen bg-[#0D0D14] border-r border-white/[0.06] flex-shrink-0 z-30"
+            <aside
+                style={{ width: collapsed ? 64 : 240 }}
+                className="hidden md:flex relative flex-col h-screen bg-[#0D0D14] border-r border-white/[0.06] flex-shrink-0 z-30 transition-[width] duration-[250ms] ease-in-out overflow-hidden"
             >
                 {/* Logo */}
                 <div className="flex items-center h-16 px-4 border-b border-white/[0.06] flex-shrink-0">
@@ -68,22 +61,11 @@ export default function Sidebar() {
                         <div className="w-8 h-8 rounded-lg bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center flex-shrink-0">
                             <Eye className="w-4 h-4 text-indigo-400" />
                         </div>
-                        <AnimatePresence>
-                            {!collapsed && (
-                                <motion.div
-                                    initial={{ opacity: 0, width: 0 }}
-                                    animate={{ opacity: 1, width: "auto" }}
-                                    exit={{ opacity: 0, width: 0 }}
-                                    transition={{ duration: 0.2 }}
-                                    className="overflow-hidden"
-                                >
-                                    <span className="text-sm font-semibold text-white whitespace-nowrap">
-                                        Optovision
-                                        <span className="text-indigo-400">Plus</span>
-                                    </span>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                        <div className={`overflow-hidden transition-[opacity,max-width] duration-200 ${collapsed ? 'opacity-0 max-w-0' : 'opacity-100 max-w-[160px]'}`}>
+                            <span className="text-sm font-semibold text-white whitespace-nowrap">
+                                Optovision<span className="text-indigo-400">Plus</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
 
@@ -91,8 +73,7 @@ export default function Sidebar() {
                 <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto overflow-x-hidden">
                     {allItems.map((item) => {
                         const Icon = item.icon
-                        const isActive =
-                            pathname === item.href || pathname.startsWith(item.href + "/")
+                        const isActive = pathname === item.href || pathname.startsWith(item.href + "/")
 
                         return (
                             <Link
@@ -107,26 +88,12 @@ export default function Sidebar() {
                                 title={collapsed ? item.label : undefined}
                             >
                                 {isActive && (
-                                    <motion.div
-                                        layoutId="sidebar-active"
-                                        className="absolute inset-0 rounded-lg bg-indigo-500/10"
-                                        transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
-                                    />
+                                    <div className="absolute inset-0 rounded-lg bg-indigo-500/10" />
                                 )}
                                 <Icon className="w-5 h-5 flex-shrink-0 relative z-10" />
-                                <AnimatePresence>
-                                    {!collapsed && (
-                                        <motion.span
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            exit={{ opacity: 0 }}
-                                            transition={{ duration: 0.15 }}
-                                            className="whitespace-nowrap relative z-10"
-                                        >
-                                            {item.label}
-                                        </motion.span>
-                                    )}
-                                </AnimatePresence>
+                                <span className={`whitespace-nowrap relative z-10 transition-[opacity,max-width] duration-150 overflow-hidden ${collapsed ? 'opacity-0 max-w-0' : 'opacity-100 max-w-[160px]'}`}>
+                                    {item.label}
+                                </span>
                             </Link>
                         )
                     })}
@@ -146,23 +113,14 @@ export default function Sidebar() {
                                     {session?.user?.name ? getInitials(session.user.name) : "U"}
                                 </AvatarFallback>
                             </Avatar>
-                            <AnimatePresence>
-                                {!collapsed && (
-                                    <motion.div
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        className="flex-1 min-w-0 text-left"
-                                    >
-                                        <p className="text-xs font-medium text-slate-200 truncate">
-                                            {session?.user?.name || "Usuario"}
-                                        </p>
-                                        <p className="text-[10px] text-slate-500 truncate">
-                                            {(session?.user as any)?.role || "VENDEDOR"}
-                                        </p>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                            <div className={`flex-1 min-w-0 text-left overflow-hidden transition-[opacity,max-width] duration-200 ${collapsed ? 'opacity-0 max-w-0' : 'opacity-100 max-w-[160px]'}`}>
+                                <p className="text-xs font-medium text-slate-200 truncate">
+                                    {session?.user?.name || "Usuario"}
+                                </p>
+                                <p className="text-[10px] text-slate-500 truncate">
+                                    {(session?.user as any)?.role || "VENDEDOR"}
+                                </p>
+                            </div>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent side="top" align="start" className="w-48 bg-[#111118] border-white/[0.08]">
                             <DropdownMenuSeparator className="bg-white/[0.06]" />
@@ -189,7 +147,7 @@ export default function Sidebar() {
                         <ChevronLeft className="w-3 h-3 text-slate-400" />
                     )}
                 </button>
-            </motion.aside>
+            </aside>
 
             {/* Mobile Bottom Navigation */}
             <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#0D0D14]/90 backdrop-blur-md border-t border-white/[0.06] z-50 flex items-center justify-around px-1 pb-safe">
@@ -206,10 +164,7 @@ export default function Sidebar() {
                             )}
                         >
                             {isActive && (
-                                <motion.div
-                                    layoutId="mobile-active"
-                                    className="absolute -top-[1px] w-8 h-[2px] bg-indigo-500 rounded-b-full shadow-[0_0_8px_rgba(99,102,241,0.5)]"
-                                />
+                                <div className="absolute -top-[1px] w-8 h-[2px] bg-indigo-500 rounded-b-full shadow-[0_0_8px_rgba(99,102,241,0.5)]" />
                             )}
                             <Icon className="w-5 h-5 relative z-10" />
                             <span className="text-[10px] font-medium relative z-10">{item.label}</span>

@@ -89,6 +89,7 @@ model Client {
 
   @@index([fullName])
   @@index([dni])
+  @@index([email])
 }
 
 model Order {

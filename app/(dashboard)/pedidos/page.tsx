@@ -11,8 +11,6 @@ import { toast } from "sonner"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import { formatCurrency } from "@/lib/utils"
-import { pdf } from "@react-pdf/renderer"
-import OrderPDF from "@/components/orders/OrderPDF"
 
 const STATUS_FLOW = ["PENDIENTE", "EN_PROCESO", "ENVIADO", "ENTREGADO", "CANCELADO"] as const
 const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
@@ -95,6 +93,10 @@ export default function PedidosPage() {
             ])
             const [order, company] = await Promise.all([orderRes.json(), settingsRes.json()])
 
+            const [{ pdf }, { default: OrderPDF }] = await Promise.all([
+                import("@react-pdf/renderer"),
+                import("@/components/orders/OrderPDF"),
+            ])
             const blob = await pdf(<OrderPDF order={order} company={company} />).toBlob()
             const url = URL.createObjectURL(blob)
             const a = document.createElement("a")
