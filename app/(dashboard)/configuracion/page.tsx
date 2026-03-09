@@ -2,9 +2,9 @@
 
 import dynamic from "next/dynamic"
 import { useState } from "react"
-import { Loader2, FolderOpen, Users, Building2, ShieldAlert } from "lucide-react"
+import { Loader2, Tag, Users, Building2, ShieldAlert } from "lucide-react"
 import { useSession } from "next-auth/react"
-import { motion, AnimatePresence } from "framer-motion"
+import { cn } from "@/lib/utils"
 
 const CategoriesTab = dynamic(() => import("@/components/configuracion/CategoriesTab"), {
     loading: () => <TabLoading />,
@@ -18,19 +18,16 @@ const SettingsTab = dynamic(() => import("@/components/configuracion/SettingsTab
 
 function TabLoading() {
     return (
-        <div className="flex flex-col items-center justify-center py-20 bg-zinc-900 rounded-2xl border border-white/10">
-            <Loader2 className="w-8 h-8 animate-spin text-indigo-500/50 mb-4" />
-            <p className="text-sm text-zinc-400">Cargando...</p>
+        <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-6 h-6 animate-spin text-indigo-500/50" />
         </div>
     )
 }
 
-interface Tab { id: string; label: string; icon: React.ElementType }
-
-const TABS: Tab[] = [
-    { id: "categorias", label: "Categorías", icon: FolderOpen },
-    { id: "usuarios", label: "Usuarios", icon: Users },
-    { id: "empresa", label: "Empresa", icon: Building2 },
+const TABS = [
+    { id: "categorias", label: "Categorías", icon: Tag, description: "Organizá tus productos" },
+    { id: "usuarios", label: "Usuarios", icon: Users, description: "Accesos y permisos" },
+    { id: "empresa", label: "Empresa", icon: Building2, description: "Datos de la óptica" },
 ]
 
 export default function ConfiguracionPage() {
@@ -43,58 +40,59 @@ export default function ConfiguracionPage() {
             <div className="flex flex-col items-center justify-center py-24">
                 <ShieldAlert className="w-16 h-16 text-red-400 mb-6" />
                 <h2 className="text-2xl font-bold text-white mb-2">Acceso denegado</h2>
-                <p className="text-zinc-400 max-w-md text-center">No tenés los permisos suficientes para acceder a la configuración del sistema. Contactá a un administrador.</p>
+                <p className="text-zinc-400 max-w-md text-center">
+                    No tenés los permisos suficientes para acceder a la configuración.
+                </p>
             </div>
         )
     }
 
-    return (
-        <div className="animate-fade-in pb-10">
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold text-white tracking-tight">Configuración General</h1>
-                <p className="text-base text-zinc-400 mt-2">Administrá los ajustes fundamentales de tu óptica, inventario y equipo.</p>
-            </div>
+    const activeTabData = TABS.find(t => t.id === activeTab)!
 
-            <div className="mb-8 overflow-x-auto pb-2 scrollbar-hide">
-                <div className="flex space-x-2 bg-zinc-900/50 p-1.5 rounded-full border border-white/5 inline-flex backdrop-blur-sm">
+    return (
+        <div className="flex gap-8 min-h-[calc(100vh-8rem)]">
+
+            {/* ── Left nav ─────────────────────────────────── */}
+            <aside className="w-52 shrink-0">
+                <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-3 px-3">
+                    Configuración
+                </p>
+                <nav className="space-y-0.5">
                     {TABS.map((tab) => {
                         const Icon = tab.icon
-                        const isActive = activeTab === tab.id
+                        const active = activeTab === tab.id
                         return (
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`relative flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 outline-none ${isActive ? 'text-white' : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5'}`}
-                            >
-                                {isActive && (
-                                    <motion.div
-                                        layoutId="pill-bubble"
-                                        className="absolute inset-0 bg-indigo-600/20 border border-indigo-500/30 rounded-full"
-                                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                                    />
+                                className={cn(
+                                    "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-left cursor-pointer",
+                                    active
+                                        ? "bg-indigo-500/10 text-indigo-300 border border-indigo-500/20"
+                                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04] border border-transparent"
                                 )}
-                                <Icon className={`w-4 h-4 relative z-10 ${isActive ? 'text-indigo-400' : ''}`} />
-                                <span className="relative z-10">{tab.label}</span>
+                            >
+                                <Icon className={cn("w-4 h-4 shrink-0", active ? "text-indigo-400" : "text-slate-500")} />
+                                {tab.label}
                             </button>
                         )
                     })}
-                </div>
-            </div>
+                </nav>
+            </aside>
 
-            <div className="relative">
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={activeTab}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                    >
-                        {activeTab === "categorias" && <CategoriesTab />}
-                        {activeTab === "usuarios" && <UsersTab />}
-                        {activeTab === "empresa" && <SettingsTab />}
-                    </motion.div>
-                </AnimatePresence>
+            {/* ── Divider ──────────────────────────────────── */}
+            <div className="w-px bg-white/[0.06] shrink-0" />
+
+            {/* ── Content ──────────────────────────────────── */}
+            <div className="flex-1 min-w-0">
+                <div className="mb-6">
+                    <h1 className="text-xl font-semibold text-white">{activeTabData.label}</h1>
+                    <p className="text-sm text-slate-400 mt-0.5">{activeTabData.description}</p>
+                </div>
+
+                {activeTab === "categorias" && <CategoriesTab />}
+                {activeTab === "usuarios" && <UsersTab />}
+                {activeTab === "empresa" && <SettingsTab />}
             </div>
         </div>
     )

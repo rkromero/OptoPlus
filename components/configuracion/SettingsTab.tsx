@@ -41,17 +41,16 @@ export default function SettingsTab() {
         )
     }
 
-    const inputClass = "bg-zinc-800 border-zinc-700 focus:border-indigo-500 text-white transition-colors"
-    const labelClass = "text-zinc-300 text-sm font-medium mb-2 block"
+    const inputClass = "bg-white/[0.04] border-white/[0.08] focus:border-indigo-500/60 text-white transition-all"
+    const labelClass = "text-slate-400 text-xs font-medium mb-1.5 block uppercase tracking-wide"
 
     return (
-        <div className="max-w-2xl mx-auto bg-zinc-900 border border-white/10 rounded-2xl p-6 md:p-8 relative">
-            <h3 className="text-xl font-semibold text-white mb-2">Perfil de la Óptica</h3>
-            <p className="text-sm text-zinc-400 mb-8">Estos datos aparecerán en los remitos, facturas y correos enviados a tus clientes.</p>
+        <div className="max-w-lg">
+            <p className="text-sm text-slate-400 mb-6">Estos datos aparecerán en los remitos y documentos enviados a tus clientes.</p>
 
             <div className="space-y-8">
                 <section>
-                    <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 border-b border-white/10 pb-2">Información general</h4>
+                    <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4 pb-2 border-b border-white/[0.06]">Información general</h4>
                     <div className="space-y-4">
                         <div>
                             <Label className={labelClass}>Nombre Comercial de la Empresa</Label>
@@ -87,7 +86,7 @@ export default function SettingsTab() {
                 </section>
 
                 <section>
-                    <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 border-b border-white/10 pb-2">Dirección Física</h4>
+                    <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4 pb-2 border-b border-white/[0.06]">Dirección Física</h4>
                     <div className="space-y-4">
                         <div>
                             <Label className={labelClass}>Calle y número</Label>
@@ -112,7 +111,7 @@ export default function SettingsTab() {
                 </section>
 
                 <section>
-                    <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 border-b border-white/10 pb-2">Identidad Visual</h4>
+                    <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4 pb-2 border-b border-white/[0.06]">Identidad Visual</h4>
                     <div>
                         <Label className={labelClass}>Logo de la empresa</Label>
                         <div className="flex items-start gap-4">
@@ -133,15 +132,14 @@ export default function SettingsTab() {
                 </section>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/10 flex justify-end">
+            <div className="mt-8 pt-5 border-t border-white/[0.06] flex justify-end">
                 <Button
                     onClick={handleSave}
                     disabled={saving}
-                    size="lg"
-                    className="bg-indigo-600 hover:bg-indigo-500 text-white min-w-[200px]"
+                    className="bg-indigo-600 hover:bg-indigo-500 text-white px-6"
                 >
-                    {saving ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
-                    Guardar configuración
+                    {saving ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+                    Guardar cambios
                 </Button>
             </div>
         </div>

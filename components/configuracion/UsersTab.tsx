@@ -112,15 +112,15 @@ export default function UsersTab() {
     }
 
     return (
-        <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between bg-zinc-900 border border-white/10 p-4 rounded-2xl">
+        <div className="space-y-4">
+            <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
                 <div className="relative w-full max-w-md">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
                     <Input
                         placeholder="Buscar por nombre, email o rol..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-9 bg-zinc-800 border-zinc-700 focus:border-indigo-500 text-white w-full"
+                        className="pl-9 bg-white/[0.04] border-white/[0.08] focus:border-indigo-500/60 text-white w-full"
                     />
                 </div>
                 <Button onClick={openCreateForm} className="bg-indigo-600 hover:bg-indigo-500 text-white gap-2 w-full sm:w-auto shrink-0">
@@ -130,12 +130,12 @@ export default function UsersTab() {
             </div>
 
             {loading ? (
-                <div className="flex flex-col items-center justify-center py-20 bg-zinc-900 rounded-2xl border border-white/10">
-                    <Loader2 className="w-8 h-8 animate-spin text-indigo-500/50 mb-4" />
-                    <p className="text-sm text-zinc-400">Cargando usuarios...</p>
+                <div className="flex items-center gap-3 justify-center py-14 text-slate-500">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span className="text-sm">Cargando...</span>
                 </div>
             ) : filteredUsers.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-20 bg-zinc-900 rounded-2xl border border-white/10 border-dashed text-center px-4">
+                <div className="flex flex-col items-center justify-center py-14 rounded-xl border border-dashed border-white/[0.08] text-center px-4">
                     <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4">
                         <UserX className="w-8 h-8 text-zinc-500" />
                     </div>
@@ -145,11 +145,11 @@ export default function UsersTab() {
                     </p>
                 </div>
             ) : (
-                <div className="bg-zinc-900 rounded-2xl border border-white/10 overflow-hidden">
+                <div className="rounded-xl border border-white/[0.06] overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr className="border-b border-white/10 bg-white/[0.02]">
+                                <tr className="border-b border-white/[0.06] bg-white/[0.02]">
                                     <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Usuario</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden md:table-cell">Email</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden sm:table-cell">Rol</th>
@@ -227,46 +227,46 @@ export default function UsersTab() {
                 <form onSubmit={handleSave} className="flex flex-col flex-1">
                     <div className="flex-1 space-y-6 pb-8">
                         <div>
-                            <Label className="text-zinc-300 text-sm mb-2 block">Nombre completo *</Label>
+                            <Label className="text-slate-400 text-xs font-medium mb-1.5 block uppercase tracking-wide">Nombre completo *</Label>
                             <Input
                                 value={form.name}
                                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                                className="bg-zinc-800 border-zinc-700 focus:border-indigo-500 text-white"
+                                className="bg-white/[0.04] border-white/[0.08] focus:border-indigo-500/60 text-white"
                                 placeholder="Ej: Juan García"
                                 required
                             />
                         </div>
                         <div>
-                            <Label className="text-zinc-300 text-sm mb-2 block">Correo electrónico *</Label>
+                            <Label className="text-slate-400 text-xs font-medium mb-1.5 block uppercase tracking-wide">Correo electrónico *</Label>
                             <Input
                                 type="email"
                                 value={form.email}
                                 onChange={(e) => setForm({ ...form, email: e.target.value })}
-                                className="bg-zinc-800 border-zinc-700 focus:border-indigo-500 text-white"
+                                className="bg-white/[0.04] border-white/[0.08] focus:border-indigo-500/60 text-white"
                                 placeholder="juan@optovision.com"
                                 required
                             />
                         </div>
                         <div>
-                            <Label className="text-zinc-300 text-sm mb-2 block">
+                            <Label className="text-slate-400 text-xs font-medium mb-1.5 block uppercase tracking-wide">
                                 {editingUser ? "Nueva contraseña (opcional)" : "Contraseña *"}
                             </Label>
                             <Input
                                 type="password"
                                 value={form.password}
                                 onChange={(e) => setForm({ ...form, password: e.target.value })}
-                                className="bg-zinc-800 border-zinc-700 focus:border-indigo-500 text-white"
+                                className="bg-white/[0.04] border-white/[0.08] focus:border-indigo-500/60 text-white"
                                 placeholder={editingUser ? "Dejar en blanco para no cambiar" : "Mínimo 6 caracteres"}
                                 required={!editingUser}
                                 minLength={6}
                             />
                         </div>
                         <div>
-                            <Label className="text-zinc-300 text-sm mb-2 block">Nivel de acceso *</Label>
+                            <Label className="text-slate-400 text-xs font-medium mb-1.5 block uppercase tracking-wide">Nivel de acceso *</Label>
                             <select
                                 value={form.role}
                                 onChange={(e) => setForm({ ...form, role: e.target.value })}
-                                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:border-indigo-500 text-white text-sm outline-none transition-colors"
+                                className="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] focus:border-indigo-500/60 text-white text-sm outline-none transition-all"
                             >
                                 <option value="VENDEDOR">Vendedor (Acceso limitado)</option>
                                 <option value="ADMIN">Administrador (Acceso total)</option>
